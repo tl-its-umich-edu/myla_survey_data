@@ -1,0 +1,11 @@
+Django>=3.0,<4.0
+gspread==3.7.0
+Jinja2==2.11.2
+mysql_connector_python==8.0.24
+pandas==1.2.4
+py==1.10.0
+requests==2.25.1
+urllib3==1.26.4
+mysqlclient
+django-material
+python-decouple

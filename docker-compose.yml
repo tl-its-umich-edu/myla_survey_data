@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=myla_survey_root_password
+      - MYSQL_HOST=${DJANGO_DB_HOST}
+      - MYSQL_DATABASE=${DJANGO_DB_NAME}
+      - MYSQL_USER=${DJANGO_DB_USER}
+      - MYSQL_PASSWORD=${DJANGO_DB_PASSWORD}
+      - MYSQL_PORT=${DJANGO_DB_PORT}
+    entrypoint:
+      [
+        "docker-entrypoint.sh",
+        "--default-authentication-plugin=mysql_native_password",
+      ]
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.data/mysql:/var/lib/mysql:delegated
+    container_name: myla_survey_mysql
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/my_app_dir
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    container_name: myla_survey

@@ -1,0 +1,60 @@
+{% load static %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta charset="UTF-8"> 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>MyLA Surveys</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+</head>
+<body>
+    <h1>MyLA Survey Data Aggregation Tool</h1>
+    <main>
+      <!-- FIXME form action -->
+      <form action="/generate_csv/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Select semester(s): </h2>
+        {% for semester in semesters %}
+        <input type="Checkbox" name="{{semester}}" value="yes">{{semester}}
+        {% endfor %}
+        <!-- Loop over available options -->
+        <h2>Select Download Preference: </h2>
+        <select name="questions" id="questions">
+          <option value="all_matches">Only questions that match across selected semesters</option>
+          <option value="solo">Download one survey on its own</option>
+          <!-- Loop over available options -->
+        </select>
+        <br>
+        <br>
+        <input type="Checkbox" name='metadata' value='include'>Include Student Survey Metadata?
+        <br>
+        <br>
+        <input type="submit" name="generate" value="generate"/>
+      </form>
+    </main>
+    <footer>
+        {% load flatpages %}
+        {% get_flatpages '/copyright/' as flatpages %}
+        <table cellspacing="8" style="width: 100%; padding: 8px">
+            <tr>
+                {% if flatpages.first.content %}
+                <td style="text-align: left">
+                    {{ flatpages.first.content|safe }}
+                </td>
+                {% endif %}
+                {% if user.is_superuser and git_version %}
+                <td style="text-align: left">
+                    Git version:
+                    <a href="{{ git_version.repo }}/commit/{{ git_version.commit }}">{{ git_version.commit_abbrev }}</a>
+                    (commit), {{ git_version.branch }} (branch)
+                </td>
+                {% endif %}
+                <td style="text-align: left">Data last updated on {{last_updated|date:"m/d/Y P T"}}</td>
+            </tr>
+        </table>
+    </footer>
+</body>
+</html>
