@@ -1,0 +1,28 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <table cellspacing="8" style="width: 100%; padding: 8px">
+            <tr>
+                <td style="text-align: left">
+                    <h5>Welcome, {{ user.username}}. </h5>
+                </td>
+                <td style="text-align: left">
+                    <a href="{% url 'logout' %}">Log Out</a>
+                </td>
+            </tr>
+        </table>
+        {% load material_form %}
+        <!-- FIXME form action -->
+        <form action="/generate_csv/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% form form=form %}{% endform %}
+        <br />
+        <button type="submit" class="btn">Download</button>
+        </form>
+    {% else %}
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+{% endblock %}

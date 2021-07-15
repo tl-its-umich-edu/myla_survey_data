@@ -1,0 +1,41 @@
+{% load static %}
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta charset="UTF-8"> 
+    <title>MyLA Surveys</title>
+    {% include 'material/includes/material_css.html' %}
+    {% include 'material/includes/material_js.html' %}
+</head>
+<body class="mdc-typography">
+    <main>
+        <h1>MyLA Survey Data Aggregation Tool</h1>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        {% load flatpages %}
+        {% get_flatpages '/copyright/' as flatpages %}
+        <table cellspacing="8" style="width: 100%; padding: 8px">
+            <tr>
+                {% if flatpages.first.content %}
+                <td style="text-align: left">
+                    {{ flatpages.first.content|safe }}
+                </td>
+                {% endif %}
+                {% if user.is_superuser and git_version %}
+                <td style="text-align: left">
+                    Git version:
+                    <a href="{{ git_version.repo }}/commit/{{ git_version.commit }}">{{ git_version.commit_abbrev }}</a>
+                    (commit), {{ git_version.branch }} (branch)
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+    </footer>
+    {{ form.media.js }}
+</body>
+</html>
