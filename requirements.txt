@@ -1,4 +1,4 @@
-Django>=3.0,<4.0
+Django==3.1.8
 gspread==3.7.0
 Jinja2==2.11.2
 mysql_connector_python==8.0.24
@@ -9,3 +9,6 @@ urllib3==1.26.4
 mysqlclient
 django-material
 python-decouple
+debugpy==1.2.0
+whitenoise==5.1.0
+gunicorn==20.0.4
