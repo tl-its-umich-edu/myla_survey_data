@@ -30,8 +30,7 @@ DEBUG = True
 # This is required by flatpages flow. For Example Copyright information in the footer populated from flatpages
 SITE_ID = 1
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=["127.0.0.1", "localhost"])
 
 # Application definition
 
